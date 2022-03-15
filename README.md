@@ -1,47 +1,36 @@
-# Getting Started with Create React App
+# Smart Search - Farid
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Les étapes du rendu de la liste
 
-## Available Scripts
+Le composant `TableRecords` récupère les 10 000 records accessibles. Il 10 766 records mais on ne peut pas récupérer les données au-delà de 10 000.
 
-In the project directory, you can run:
+Toutes ces données sont stockées dans le context `RecordsContext`.
 
-### `npm start`
+J'ai préféré récupérer toutes les données au lancement de l'application pour pouvoir gérer le filtre plus facilement et plus rapidement. Surtout que la requête est très rapide.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### `Search`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Le composant `Search` affiche le text input et réagit à la recherche de l'utilisateur grâce au hook `useEffect`. Le timeout permet d'attendre que l'utilisateur ait fini de taper sa recherche pour filtrer les résultats.
 
-### `npm test`
+### `Table`
+
+Les résultats sont affichés dans une table parce que la lecture des données est plus rapide et plus simple. L'utilisateur peut aussi ouvrir Google Maps directement depuis la table pour situer l'emplacement du tournage.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Le context `RecordsContext`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`RecordsContext` utilise le hook `useReducer` pour manipuler les données. Grâce au context, on peut séparer les composants `Search` et `Table` et éviter d'utiliser les props.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Avec autant de données reçue, l'application serait très lente si les données étaient manipulées avec le state des composants.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Filtrer les données
 
-### `npm run eject`
+Le text input accepte 1 à N mots-clés. Exemple: 2016 2017 75018 75016.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Le filtre se fait en plusieurs étapes:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-# Smart-Search
+1. L'extraction et le trie : les années, lieux et type de tournage sont séparées dans trois Array différents.
+2. Une action est dispatchée au reducer du context
+3. Appel de la fonction `filterRecords` qui filtre toutes les données par étapes : filtre par année, puis par lieu et enfin par type.
