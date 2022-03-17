@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,14 +12,17 @@ import { Tournage } from "./Tournage";
 import { Record } from "../models/Record";
 import { getAllRecords } from "../api/getAllRecords";
 import { useRecords } from "../context/RecordsContext";
+import { useSearch } from "../context/SearchContext";
+import SaveSearch from "./SaveSearch";
 
 export default function TableRecords() {
   const {
-    state: { visibleRecords: records },
+    state: { visibleRecords: records, total, isLoading },
     setRecords,
     nextPage,
   } = useRecords();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const { setOptions } = useSearch();
 
   window.onscroll = function (ev) {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -29,26 +32,32 @@ export default function TableRecords() {
 
   useEffect(() => {
     const retrieveAll = async () => {
-      const allRecords = await getAllRecords();
-      setRecords(allRecords);
-      setIsLoading(false);
+      const { allRecords, yearsGroup, ardtsGroup, typesGroup } =
+        await getAllRecords();
+      setRecords(allRecords, yearsGroup, ardtsGroup, typesGroup);
+      setOptions(
+        [...yearsGroup, ...ardtsGroup, ...typesGroup].map((el: any) => el.name)
+      );
     };
-
     retrieveAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {
-    <p className="loading">Chargement...</p>;
+    return <p className="loading">Chargement...</p>;
   }
 
-  // TODO infinite loading
   return (
-    <div>
+    <div className="containerTable">
+      <div className="total">
+        <p className="results">Total: {total}</p>
+        <SaveSearch />
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
+          <TableHead className="table-head">
             <TableRow>
-              <TableCell>Tournage</TableCell>
+              <TableCell className="cell">Tournage</TableCell>
               <TableCell align="right">Producteur</TableCell>
               <TableCell align="right">Réalisateur</TableCell>
               <TableCell align="right">Lieu du tournage</TableCell>

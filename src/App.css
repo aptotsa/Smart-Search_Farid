@@ -1,25 +1,71 @@
 .App {
-  /* background-color: #282c34;*/
+  background-color: #f8f7f9;
   min-height: 100vh;
-  padding-top: 50px;
   padding-bottom: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: calc(10px + 2vmin);
-  width: 90%;
   margin: auto;
 }
 
-.header {
-  margin-bottom: 20px;
+h1 {
+  color: #664b81;
 }
-.results {
+
+.horizontal {
+  width: 90%;
+  margin-left: 5%;
+  overflow-x: scroll;
+  display: flex;
+  justify-content: space-between;
+}
+.horizontal::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.horizontal {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.next {
+  padding: 10px;
+  cursor: pointer;
+}
+.resume {
+  margin-right: 20px;
+}
+.resume-title {
+  color: #664b81;
+  font-size: 26px;
+  margin: 0;
+}
+.resume-count {
+  margin: 0;
+  margin-top: 5px;
+  font-size: 17px;
   text-align: center;
-  font-size: 16px;
+}
+
+.header {
+  width: 100%;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .search {
-  width: 300px;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+}
+.search::after {
+  border-color: red;
 }
 
 .container {
@@ -44,4 +90,65 @@ a {
 
 .loading {
   text-align: center;
+}
+
+.total {
+  border-bottom: 1px lightgrey solid;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.results {
+  font-size: 16px;
+  font-weight: bold;
+}
+.save-search {
+  font-size: 16px;
+  cursor: pointer;
+}
+.save-search:hover {
+  text-decoration: underline;
+}
+
+.table-head {
+  background-color: #f8f7f9;
+}
+
+#back-top {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: pointer;
+  animation: fadeIn 0.3s;
+  transition: opacity 0.4s;
+  opacity: 0.5;
+}
+#back-top:hover {
+  opacity: 1;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+.containerTable {
+  width: 100%;
+}
+
+.cell {
+  cursor: pointer;
+}
+.cell:hover {
+  text-decoration: underline;
 }

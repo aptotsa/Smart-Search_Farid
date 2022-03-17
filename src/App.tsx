@@ -1,16 +1,18 @@
 import "./App.css";
 
-import { Provider as RecordsProvider } from "./context/RecordsContext";
 import TableRecords from "./components/TableRecords";
 import Search from "./components/Search";
+import BackToTop from "./components/useScrollToTop";
+import ContextProvider from "./context/ContextProvider";
 
 export default function App() {
   return (
-    <RecordsProvider>
+    <ContextProvider>
       <div className="App">
         <Search />
         <TableRecords />
+        <BackToTop />
       </div>
-    </RecordsProvider>
+    </ContextProvider>
   );
 }

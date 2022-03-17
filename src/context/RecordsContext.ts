@@ -17,6 +17,10 @@ const iniState = {
   nbPages: 0,
   total: 0,
   isSearching: false,
+  recordsPerYear: [],
+  recordsPerArdt: [],
+  recordsPerType: [],
+  isLoading: true,
 };
 
 const recordsReducer = (state: any = iniState, action: any) => {
@@ -31,6 +35,10 @@ const recordsReducer = (state: any = iniState, action: any) => {
           action.payload.records.length / MAX_RECORD_PER_PAGE - 1
         ),
         total: action.payload.records.length,
+        recordsPerYear: action.payload.yearsGroup,
+        recordsPerArdt: action.payload.ardtsGroup,
+        recordsPerType: action.payload.typesGroup,
+        isLoading: false,
       };
     case NEXT_PAGE:
       return {
@@ -63,8 +71,11 @@ const recordsReducer = (state: any = iniState, action: any) => {
 };
 
 const setRecords = (dispatch: any) => {
-  return (records: any) => {
-    dispatch({ type: SET_RECORDS, payload: { records } });
+  return (records: any, yearsGroup: any, ardtsGroup: any, typesGroup: any) => {
+    dispatch({
+      type: SET_RECORDS,
+      payload: { records, yearsGroup, ardtsGroup, typesGroup },
+    });
   };
 };
 
@@ -83,7 +94,7 @@ const filter = (dispatch: any) => {
 export const { Context, Provider } = createDataContext(
   recordsReducer,
   { setRecords, nextPage, filter },
-  { records: [], visibleRecords: [], currentPage: 0, nbPages: 0 }
+  iniState
 );
 
 export const useRecords: any = () => {
