@@ -26,7 +26,7 @@ L'utilisateur peut aussi cliquer sur un lieu de tournage, une année ou un type 
 
 `SearchContext` et `RecordsContext` utilisent le hook `useReducer` pour manipuler les données. Grâce au context, on peut séparer les composants `Search` et `Table` et éviter d'utiliser les props.
 
-Avec autant de données reçue, l'application serait très lente si les données étaient manipulées avec le state des composants.
+Avec autant de données reçues, l'application serait très lente si les données étaient manipulées avec le state des composants.
 
 ## Filtrer les données
 
